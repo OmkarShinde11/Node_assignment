@@ -101,4 +101,11 @@ const createAdminUser=catchAsync(async (req,res,next)=>{
     })
 });
 
-module.exports={signUp,login,protect,restrictTo,createAdminUser}
+const getAuthUser=catchAsync(async (req,res,next)=>{
+    res.status(200).json({
+        status: "success",
+        user: req.user,
+    });
+})
+
+module.exports={signUp,login,protect,restrictTo,createAdminUser,getAuthUser}

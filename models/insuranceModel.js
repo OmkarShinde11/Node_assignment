@@ -4,6 +4,10 @@ const insuranceSchema=new mongoose.Schema({
         type: String,
         required: true
     },
+    displayOrder:{
+        type:Number,
+        required:true,
+    }
 },{ timestamps: true });
 
 const insuranceModel=new mongoose.model('insuranceModel',insuranceSchema);

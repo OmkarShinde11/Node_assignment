@@ -14,6 +14,10 @@ const coreUspsSchema=new mongoose.Schema({
         type: String,
         default: ''
     },
+    displayOrder:{
+        type:Number,
+        required:true,
+    }
 },{ timestamps: true });
 
 const coreUspModel=new mongoose.model('coreUspModel',coreUspsSchema);

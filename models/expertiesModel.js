@@ -15,6 +15,10 @@ const expertiesSchema=new mongoose.Schema({
         required: true,
         trim: true
     },
+    displayOrder:{
+        type:Number,
+        required:true,
+    }
 },{ timestamps: true });
 
 const expertiesModel=new mongoose.model('expertiesModel',expertiesSchema);

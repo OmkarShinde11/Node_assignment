@@ -7,7 +7,7 @@ const AppError = require("../utils/AppError");
 const cretaeMulterStorage = require("../utils/multerStorage");
 const multerFilter = require("../utils/multerFilter");
 const backgroundOperation = require("../utils/backgroundOperation");
-const { getSingleData, createData, updateData, deleteData, getData } = require('./factoryHandler');
+const { getSingleData, createData, updateData, deleteData, getData, reorderData } = require('./factoryHandler');
 
 // Multer Uasgae
 
@@ -109,6 +109,6 @@ const getSingleExperties=getSingleData(expertiesModel);
 // });
 
 const deleteExperties=deleteData(expertiesModel,'Experties',true);
+const reorderExperties=reorderData(expertiesModel);
 
-
-module.exports={getExperties,createExperties,getSingleExperties,updateExperties,deleteExperties,uploadPhoto};
+module.exports={getExperties,createExperties,getSingleExperties,updateExperties,deleteExperties,uploadPhoto,reorderExperties};

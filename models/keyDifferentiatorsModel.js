@@ -15,6 +15,10 @@ const keyDifferentiatorsSchema=new mongoose.Schema({
         required: true,
         trim: true
     },
+    displayOrder:{
+        type:Number,
+        required:true,
+    }
 }, { timestamps: true });
 
 const keyDifferentiatorsModel=new mongoose.model('keyDifferentiatorsModel',keyDifferentiatorsSchema);

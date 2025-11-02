@@ -1,7 +1,10 @@
 const faqModel=require('../models/faqModel');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
-const { getSingleData, updateData, deleteData, getData, createData } = require('./factoryHandler');
+const multer=require('multer');
+const multerFilter = require('../utils/multerFilter');
+const cretaeMulterStorage = require('../utils/multerStorage');
+const { getSingleData, updateData, deleteData, getData, createData, reorderData } = require('./factoryHandler');
 
 
 // const cretaeFaq=catchAsync(async(req,res,next)=>{
@@ -53,6 +56,14 @@ const getSingleFaq=getSingleData(faqModel);
 //     })
 // });
 
+const multerStorage=cretaeMulterStorage('test','test');
+
+const upolod=multer({
+    storage:multerStorage,
+    fileFilter:multerFilter,
+});
+
+const uploadPhoto=upolod.none();
 const updateFaq=updateData(faqModel);
 
 // const deleteFaq=catchAsync(async(req,res,next)=>{
@@ -68,4 +79,6 @@ const updateFaq=updateData(faqModel);
 // });
 const deleteFaq=deleteData(faqModel);
 
-module.exports={cretaeFaq,getFaq,getSingleFaq,deleteFaq,updateFaq};
+const reorderFaq=reorderData(faqModel);
+
+module.exports={cretaeFaq,getFaq,getSingleFaq,deleteFaq,updateFaq,uploadPhoto,reorderFaq};

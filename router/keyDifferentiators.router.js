@@ -1,9 +1,11 @@
 const express=require('express');
 const keyDifferentiatorsRouter=express.Router();
-const { getKeyDifferentiators,createkeyDifferentiators,getSinglekeyDifferentiator,uploadPhoto,updatekeyDifferentiator,deletekeyDifferentiators } = require('../controller/keyDifferentiatorController');
+const { getKeyDifferentiators,createkeyDifferentiators,getSinglekeyDifferentiator,uploadPhoto,updatekeyDifferentiator,deletekeyDifferentiators, reorderKeyDifferenciators } = require('../controller/keyDifferentiatorController');
+const { protect } = require('../controller/authController');
 
 keyDifferentiatorsRouter.route('/').get(getKeyDifferentiators);
-keyDifferentiatorsRouter.route('/createkeyDifferentiators').post(uploadPhoto,createkeyDifferentiators);
-keyDifferentiatorsRouter.route('/:id').get(getSinglekeyDifferentiator).patch(uploadPhoto,updatekeyDifferentiator).delete(deletekeyDifferentiators);
+keyDifferentiatorsRouter.route('/createkeyDifferentiators').post(protect,uploadPhoto,createkeyDifferentiators);
+keyDifferentiatorsRouter.route('/reorderKeyDifferentiators').patch(protect,reorderKeyDifferenciators);
+keyDifferentiatorsRouter.route('/:id').get(getSinglekeyDifferentiator).patch(protect,uploadPhoto,updatekeyDifferentiator).delete(protect,deletekeyDifferentiators);
 
 module.exports=keyDifferentiatorsRouter;

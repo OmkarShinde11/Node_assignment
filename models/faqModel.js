@@ -11,6 +11,10 @@ const faqSchema=new mongoose.Schema({
         required: true,
         trim: true
     },
+    displayOrder:{
+        type:Number,
+        required:true,
+    }
 },{ timestamps: true });
 
 const faqModel=new mongoose.model('faqModel',faqSchema);

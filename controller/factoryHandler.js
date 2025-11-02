@@ -47,6 +47,8 @@ const updateData=(Model,folderPath=null,operation=false)=>(
 
 const createData=(Model,folderPath=null)=>(
     catchAsync(async (req,res,next)=>{
+        const lastItem = await Model.findOne().sort({ displayOrder: -1 });
+        const newOrder = lastItem ? lastItem.displayOrder + 1 : 1;
         console.log(req.body);
         console.log(req.file);
         const data={...req.body};
@@ -54,7 +56,7 @@ const createData=(Model,folderPath=null)=>(
             data.Image=req?.file ? `${req.protocol}://${req.get('host')}/upload/image/${folderPath}/${req.file.filename}` : null;
         }
         console.log(data);
-        const Doc=await Model.create(data);
+        const Doc=await Model.create({...data,displayOrder:newOrder});
         res.status(200).json({
             status:'Success',
             message:'New Document Created Successfully',
@@ -75,6 +77,8 @@ const deleteData=(Model,folderPath=null)=>(
         if(!doc){
             return next(new AppError(404,`There is no such document with ${id}`));
         }
+
+        await reindexOrder(Model);
         res.status(200).json({
             status:'Success',
             message:'Document Deleted Successfully',
@@ -88,7 +92,7 @@ const deleteData=(Model,folderPath=null)=>(
 
 const getData=(Model)=>(
     catchAsync(async(req,res,next)=>{
-        const data=await Model.find();
+        const data=await Model.find().sort({displayOrder:1});
         res.status(200).json({
             status:'Success',
             message:'Data retrived Successfully',
@@ -97,11 +101,47 @@ const getData=(Model)=>(
     })
 )
 
+const reorderData=(Model)=>(
+    catchAsync(async (req,res,next)=>{
+        const data=req.body;
+        if (!data || !Array.isArray(data)) {
+            return next(new AppError(400,'Invalid Data, Please Provide Correct one'));
+        };
+
+        const bulkOps=data.map(item=>({
+            updateOne:{
+                filter:{_id:item._id},
+                update:{displayOrder:item.displayOrder},
+            },
+        }));
+
+        await Model.bulkWrite(bulkOps);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Document reorder successfully',
+        });
+    })
+);
+
+const reindexOrder=async(Model)=>{
+    let data=await Model.find().sort({displayOrder:1});
+    const bulkOps=data.map((item,index)=>({
+        updateOne:{
+            filter:{_id:item._id},
+            update:{displayOrder:index+1},
+        }
+    }));
+    
+  if (bulkOps.length > 0)await Model.bulkWrite(bulkOps);
+}
+
 
 module.exports={
     getSingleData,
     createData,
     updateData,
     deleteData,
-    getData
+    getData,
+    reorderData
 }

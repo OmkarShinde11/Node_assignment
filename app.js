@@ -17,7 +17,14 @@ const limit=rateLimit({
 });
 app.use('/api',limit);
 
-app.use(cors());
+
+app.use(cors(
+  {
+    origin: '*', // or ['http://localhost:5173'] for stricter control
+    methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  }
+));
 // used to read a req.body.
 app.use(express.json({limit:'10kb'}));
 
@@ -25,6 +32,13 @@ app.use(express.json({limit:'10kb'}));
 app.use(xss());
 
 // Serving Static Files 
+// app.use('/upload', express.static('upload'));
+
+app.use('/upload', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // allow all origins
+  res.header('Cross-Origin-Resource-Policy', 'cross-origin'); // fix NotSameOrigin error
+  next();
+});
 app.use('/upload', express.static('upload'));
 
 const globalMiddleware=require('./controller/errorController');

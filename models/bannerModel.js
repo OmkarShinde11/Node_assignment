@@ -30,6 +30,10 @@ const bannerSchema=new mongoose.Schema({
         type: String,
         required: true
     },
+    displayOrder:{
+        type:Number,
+        required:true,
+    }
 }, { timestamps: true });
 
 const bannerModel=new mongoose.model('bannerModel',bannerSchema);

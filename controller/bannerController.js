@@ -7,7 +7,7 @@ const AppError = require("../utils/AppError");
 const cretaeMulterStorage = require("../utils/multerStorage");
 const multerFilter = require("../utils/multerFilter");
 const backgroundOperation = require("../utils/backgroundOperation");
-const { getSingleData, createData, updateData, deleteData, getData } = require("./factoryHandler");
+const { getSingleData, createData, updateData, deleteData, getData, reorderData } = require("./factoryHandler");
 
 // Multer Uasgae
 
@@ -119,4 +119,6 @@ const deleteBanner=deleteData(bannerModel,'bannerImage',true);
 //         else console.log('Old image deleted:', filePath);
 //     });
 // }
-module.exports={getBanner,createBanner,uploadPhoto,updateBanner,deleteBanner,getSingleBanner};
+
+const reorderBanner=reorderData(bannerModel);
+module.exports={getBanner,createBanner,uploadPhoto,updateBanner,deleteBanner,getSingleBanner,reorderBanner};

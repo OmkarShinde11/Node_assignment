@@ -5,7 +5,10 @@ const awardSchema=new mongoose.Schema({
         type: String,
         required: true
     },
-    
+    displayOrder:{
+        type:Number,
+        required:true,
+    }
 },{ timestamps: true });
 
 const awardModel=new mongoose.model('awardModel',awardSchema);

@@ -7,7 +7,7 @@ const catchAsync = require('../utils/catchAsync');
 const cretaeMulterStorage = require('../utils/multerStorage');
 const multerFilter = require('../utils/multerFilter');
 const backgroundOperation = require('../utils/backgroundOperation');
-const { getSingleData, createData, updateData, deleteData, getData } = require('./factoryHandler');
+const { getSingleData, createData, updateData, deleteData, getData, reorderData } = require('./factoryHandler');
 
 const multerStorage=cretaeMulterStorage('keyDifferentiator','key');
 
@@ -106,7 +106,8 @@ const updatekeyDifferentiator=updateData(keyDifferentiatorsModel,'keyDifferentia
 // });
 
 const deletekeyDifferentiators=deleteData(keyDifferentiatorsModel,'keyDifferentiator',true);
+const reorderKeyDifferenciators=reorderData(keyDifferentiatorsModel);
 
 module.exports={
-    updatekeyDifferentiator,deletekeyDifferentiators,getKeyDifferentiators,getSinglekeyDifferentiator,createkeyDifferentiators,uploadPhoto
+    updatekeyDifferentiator,deletekeyDifferentiators,getKeyDifferentiators,getSinglekeyDifferentiator,createkeyDifferentiators,uploadPhoto,reorderKeyDifferenciators
 }
