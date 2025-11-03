@@ -19,6 +19,7 @@ const updateData=(Model,folderPath=null,operation=false)=>(
     catchAsync(async(req,res,next)=>{
         const id=req.params.id;
         let data={...req.body};
+        if(Object.keys(data).length== 0) return next(new AppError(400,'Provide data to update a document'))
         let oldData;
         if(req.file){
             console.log(req.file);
